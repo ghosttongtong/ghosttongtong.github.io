@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>会讲身份</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #e3f2fd;
+            margin: 0;
+            padding: 0;
+            color: #872108;
+        }
+        
+        .header {
+            background-color: #872108;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h2 {
+            color: #872108;
+            margin-top: 0;
+        }
+        
+        .feature-card p {
+            color: #666;
+        }
+        
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #872108;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>社交厅</h1>
+    </div>
+    
+    <div class="container">
+        <div class="feature-card" onclick="navigateToDailyTopic()">
+            <h2>每日话题论坛</h2>
+            <p>点击进入AI智能匹配的每日话题讨论，支持语音交流，快来交友吧</p>
+        </div>
+        
+        <div class="feature-card" onclick="scenedialoguetraining()">
+            <h2>场景对话训练</h2>
+            <p>开始学习潮汕话吧，让AI进行打分</p>
+        </div>
+        <a href="jiemian1.html" class="back-btn">返回身份选择</a>
+    </div>
+
+    <script>
+        // 跳转到每日话题页面
+        function navigateToDailyTopic() {
+            window.location.href = 'speak1.html';
+        }
+        function scenedialoguetraining() {
+            window.location.href = 'speakandlearn.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潮汕话对话训练</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .header {
+            background-color: #872108;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        
+        .scene-info {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .scene-info h2 {
+            color: #872108;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+        }
+        
+        .scene-info h2 i {
+            margin-right: 10px;
+        }
+        
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 400px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bot-message {
+            align-items: flex-start;
+        }
+        
+        .user-message {
+            align-items: flex-end;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+        
+        .bot-message .message-content {
+            background-color: #f0f0f0;
+            border-top-left-radius: 5px;
+        }
+        
+        .user-message .message-content {
+            background-color: #872108;
+            color: white;
+            border-top-right-radius: 5px;
+        }
+        
+        .message-info {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .input-area {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .voice-btn {
+            background-color: #872108;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .voice-btn:hover {
+            background-color: #872108;
+        }
+        
+        .voice-btn.recording {
+            animation: pulse 1.5s infinite;
+            background-color: #e74c3c;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+            }
+        }
+        
+        .input-text {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .submit-btn {
+            background-color: #872108;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #872108;
+        }
+        
+        .result-panel {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #872108;
+        }
+        
+        .replay-btn {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .replay-btn i {
+            margin-right: 5px;
+        }
+        
+        .feedback {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            height: 10px;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #872108;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .waiting-indicator {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <a href="speakandlearn.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回</a>
+        <h1 id="scene-title">场景对话</h1>
+    </div>
+    
+    <div class="container">
+        <div class="scene-info">
+            <h2><i class="fas fa-info-circle"></i> <span id="scene-name">场景信息</span></h2>
+            <p id="scene-description">场景描述信息将显示在这里</p>
+        </div>
+        
+        <div class="chat-container" id="chat-container">
+            <!-- 对话内容将在这里动态生成 -->
+        </div>
+        
+        <div class="waiting-indicator" id="waiting-indicator">
+            <i class="fas fa-circle-notch fa-spin"></i> 等待用户输入...
+        </div>
+        
+        <div class="input-area">
+            <button class="voice-btn" id="voice-btn" title="按住说话">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <input type="text" class="input-text" id="user-input" placeholder="输入您的回答或按住麦克风说话">
+            <button class="submit-btn" id="submit-btn">发送</button>
+        </div>
+        
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="result-panel" id="result-panel">
+            <div class="result-header">
+                <div>
+                    <span>发音评分:</span>
+                    <span class="score" id="score">85</span>/100
+                </div>
+                <button class="replay-btn" id="replay-btn">
+                    <i class="fas fa-redo"></i>
+                    <span>回放</span>
+                </button>
+            </div>
+            <div class="feedback" id="feedback">
+                您的发音不错，但需要注意声调的变化。继续练习会更好！
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 场景数据
+        const scenes = {
+            market: {
+                title: "市场买菜",
+                description: "学习如何在潮汕市场讨价还价、询问价格等日常对话",
+                icon: "shopping-cart",
+                dialogues: [
+                    {
+                        role: "bot",
+                        text: "你好，这个鱼怎么卖？(潮汕话: Li2 ho2, zi1 gai5 he5 diou7 buêh8?)",
+                        pinyin: "Li2 ho2, zi1 gai5 he5 diou7 buêh8?"
+                    },
+                    {
+                        role: "user",
+                        text: "一斤二十五元。(潮汕话: Zêg8 geng1 no6 zab8 ngou6 ghung5.)",
+                        pinyin: "Zêg8 geng1 no6 zab8 ngou6 ghung5."
+                    },
+                    {
+                        role: "bot",
+                        text: "太贵了，二十元可以吗？(潮汕话: Tai3 gui3 liao1, no6 zab8 ghung5 oi2 mung7?)",
+                        pinyin: "Tai3 gui3 liao1, no6 zab8 ghung5 oi2 mung7?"
+                    },
+                    {
+                        role: "user",
+                        text: "最低二十三，不能再少了。(潮汕话: Zui3 di1 no6 zab8 sang1, bho5 oi2 zai3 zio2 liao1.)",
+                        pinyin: "Zui3 di1 no6 zab8 sang1, bho5 oi2 zai3 zio2 liao1."
+                    }
+                ]
+            },
+            family: {
+                title: "家庭聚会",
+                description: "模拟潮汕家庭聚会时的亲戚称呼和问候语",
+                icon: "home",
+                dialogues: [
+                    {
+                        role: "bot",
+                        text: "阿姑，新年好！(潮汕话: A1 gou1, sing1 ni5 ho2!)",
+                        pinyin: "A1 gou1, sing1 ni5 ho2!"
+                    },
+                    {
+                        role: "user",
+                        text: "新年好！今年几岁了？(潮汕话: Sing1 ni5 ho2! Gi1 ni5 gui2 hue3 liao1?)",
+                        pinyin: "Sing1 ni5 ho2! Gi1 ni5 gui2 hue3 liao1?"
+                    },
+                    {
+                        role: "bot",
+                        text: "我今年十五岁了。(潮汕话: Ua2 gi1 ni5 zab8 ngou6 hue3 liao1.)",
+                        pinyin: "Ua2 gi1 ni5 zab8 ngou6 hue3 liao1."
+                    },
+                    {
+                        role: "user",
+                        text: "读书读几年级了？(潮汕话: Tag8 ze1 tag8 gui2 nin5 gip8 liao1?)",
+                        pinyin: "Tag8 ze1 tag8 gui2 nin5 gip8 liao1?"
+                    }
+                ]
+            },
+            restaurant: {
+                title: "餐馆点餐",
+                description: "学习潮汕特色美食的点餐用语和饮食文化",
+                icon: "utensils",
+                dialogues: [
+                    {
+                        role: "bot",
+                        text: "欢迎光临，几位？(潮汕话: Huan1 ian5 guang1 lim5, gui2 ui7?)",
+                        pinyin: "Huan1 ian5 guang1 lim5, gui2 ui7?"
+                    },
+                    {
+                        role: "user",
+                        text: "两位，有菜单吗？(潮汕话: No6 ui7, u6 cai3 duan1 mung7?)",
+                        pinyin: "No6 ui7, u6 cai3 duan1 mung7?"
+                    },
+                    {
+                        role: "bot",
+                        text: "有的，这是我们的菜单。(潮汕话: U6 di1, zi1 si6 ua2 mung5 di1 cai3 duan1.)",
+                        pinyin: "U6 di1, zi1 si6 ua2 mung5 di1 cai3 duan1."
+                    },
+                    {
+                        role: "user",
+                        text: "要一份牛肉丸汤和蚝烙。(潮汕话: Ai3 zêg8 hung6 ghu5 nêg8 ung5 tang1 hua5 o5 luah8.)",
+                        pinyin: "Ai3 zêg8 hung6 ghu5 nêg8 ung5 tang1 hua5 o5 luah8."
+                    }
+                ]
+            },
+            history: {
+                title: "历史文化",
+                description: "讨论潮汕地区的历史文化和传统习俗",
+                icon: "landmark",
+                dialogues: [
+                    {
+                        role: "bot",
+                        text: "你知道潮汕功夫茶吗？(潮汕话: Li2 zai1 diou7 dio5 suan1 gang1 hu1 de5 mung7?)",
+                        pinyin: "Li2 zai1 diou7 dio5 suan1 gang1 hu1 de5 mung7?"
+                    },
+                    {
+                        role: "user",
+                        text: "知道，是一种传统的饮茶方式。(潮汕话: Zai1 diou7, si6 zêg8 zung5 duan5 dong5 di1 im2 de5 huang1 sig4.)",
+                        pinyin: "Zai1 diou7, si6 zêg8 zung5 duan5 dong5 di1 im2 de5 huang1 sig4."
+                    },
+                    {
+                        role: "bot",
+                        text: "对，它体现了潮汕人的待客之道。(潮汕话: Dui3, ta1 tai2 iang6 liao1 dio5 suan1 nang5 di1 tai6 kêh4 zi1 dou6.)",
+                        pinyin: "Dui3, ta1 tai2 iang6 liao1 dio5 suan1 nang5 di1 tai6 kêh4 zi1 dou6."
+                    },
+                    {
+                        role: "user",
+                        text: "还有潮剧也是重要的文化遗产。(潮汕话: Huan1 u6 dio5 kiah8 ia7 si6 dang6 iao3 di1 bhung5 hua6 i2 san2.)",
+                        pinyin: "Huan1 u6 dio5 kiah8 ia7 si6 dang6 iao3 di1 bhung5 hua6 i2 san2."
+                    }
+                ]
+            }
+        };
+
+        // 从本地存储获取场景
+        const scene = localStorage.getItem('dialogueScene') || 'market';
+        const sceneData = scenes[scene];
+        
+        // 初始化页面
+        document.getElementById('scene-title').textContent = sceneData.title;
+        document.getElementById('scene-name').textContent = sceneData.title;
+        document.getElementById('scene-description').textContent = sceneData.description;
+        document.querySelector('.scene-info h2 i').className = `fas fa-${sceneData.icon}`;
+        
+        // 初始化对话
+        const chatContainer = document.getElementById('chat-container');
+        const waitingIndicator = document.getElementById('waiting-indicator');
+        let currentDialogueIndex = 0;
+        
+        // 显示系统消息
+        function displayBotMessage() {
+            if (currentDialogueIndex < sceneData.dialogues.length) {
+                const dialogue = sceneData.dialogues[currentDialogueIndex];
+                
+                // 只处理系统消息
+                if (dialogue.role === 'bot') {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${dialogue.role}-message`;
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'message-content';
+                    contentDiv.textContent = dialogue.text;
+                    
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'message-info';
+                    infoDiv.textContent = '系统';
+                    
+                    messageDiv.appendChild(contentDiv);
+                    messageDiv.appendChild(infoDiv);
+                    chatContainer.appendChild(messageDiv);
+                    
+                    // 滚动到底部
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    
+                    currentDialogueIndex++;
+                    
+                    // 如果是用户回合，启用输入
+                    if (currentDialogueIndex < sceneData.dialogues.length && 
+                        sceneData.dialogues[currentDialogueIndex].role === 'user') {
+                        enableUserInput();
+                    }
+                }
+            }
+        }
+        
+        // 启用用户输入
+        function enableUserInput() {
+            waitingIndicator.style.display = 'block';
+            voiceBtn.style.display = 'flex';
+            userInput.disabled = false;
+            userInput.placeholder = "输入您的回答或按住麦克风说话";
+            userInput.focus();
+        }
+        
+        // 禁用用户输入
+        function disableUserInput() {
+            waitingIndicator.style.display = 'none';
+            voiceBtn.style.display = 'none';
+            userInput.disabled = true;
+            userInput.placeholder = "请等待系统回复...";
+        }
+        
+        // 语音输入功能
+        const voiceBtn = document.getElementById('voice-btn');
+        const userInput = document.getElementById('user-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const resultPanel = document.getElementById('result-panel');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const replayBtn = document.getElementById('replay-btn');
+        
+        let isRecording = false;
+        let recordingTimer;
+        
+        voiceBtn.addEventListener('mousedown', startRecording);
+        voiceBtn.addEventListener('touchstart', startRecording);
+        voiceBtn.addEventListener('mouseup', stopRecording);
+        voiceBtn.addEventListener('touchend', stopRecording);
+        voiceBtn.addEventListener('mouseleave', stopRecording);
+        
+        submitBtn.addEventListener('click', submitText);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitText();
+            }
+        });
+        
+        replayBtn.addEventListener('click', function() {
+            // 模拟回放功能
+            alert('正在回放您刚才的潮汕话发音');
+        });
+        
+        function startRecording(e) {
+            e.preventDefault();
+            isRecording = true;
+            voiceBtn.classList.add('recording');
+            userInput.value = "正在聆听...";
+            userInput.disabled = true;
+            
+            // 显示进度条
+            progressContainer.style.display = 'block';
+            
+            // 模拟录音进度
+            let progress = 0;
+            recordingTimer = setInterval(function() {
+                progress += 5;
+                progressBar.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    stopRecording();
+                }
+            }, 200);
+        }
+        
+        function stopRecording(e) {
+            if (e) e.preventDefault();
+            if (!isRecording) return;
+            
+            isRecording = false;
+            voiceBtn.classList.remove('recording');
+            clearInterval(recordingTimer);
+            
+            // 模拟语音识别结果
+            setTimeout(function() {
+                const currentUserDialogue = sceneData.dialogues[currentDialogueIndex];
+                userInput.value = currentUserDialogue.text;
+                userInput.disabled = false;
+                
+                // 隐藏进度条
+                progressContainer.style.display = 'none';
+                progressBar.style.width = '0%';
+                
+                // 自动提交
+                submitText();
+            }, 1000);
+        }
+        
+        function submitText() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            
+            // 显示用户消息
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = text;
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'message-info';
+            infoDiv.textContent = '用户';
+            
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(infoDiv);
+            chatContainer.appendChild(messageDiv);
+            
+            // 滚动到底部
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // 清空输入框
+            userInput.value = '';
+            
+            // 显示评分结果
+            showResult();
+            
+            // 禁用用户输入，等待系统回复
+            disableUserInput();
+            
+            // 继续下一条系统对话
+            currentDialogueIndex++;
+            setTimeout(displayBotMessage, 1500);
+        }
+        
+        function showResult() {
+            // 随机生成分数 (70-95之间)
+            const randomScore = Math.floor(Math.random() * 26) + 70;
+            scoreElement.textContent = randomScore;
+            
+            // 根据分数设置反馈
+            if (randomScore >= 90) {
+                feedbackElement.textContent = "太棒了！您的潮汕话发音非常标准，继续加油！";
+            } else if (randomScore >= 80) {
+                feedbackElement.textContent = "您的发音不错，但需要注意声调的变化。继续练习会更好！";
+            } else {
+                feedbackElement.textContent = "发音基本正确，但还需要多加练习，特别是某些词汇的发音。";
+            }
+            
+            resultPanel.style.display = 'block';
+        }
+        
+        // 开始对话 - 只显示第一条系统消息
+        displayBotMessage();
+    </script>
+</body>
+</html>

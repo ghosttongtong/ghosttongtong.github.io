@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潮汕话场景对话训练</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .header {
+            background-color: #872108;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .scenario-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .scenario-card h2 {
+            color: #872108;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .scenario-card h2 i {
+            margin-right: 10px;
+        }
+        
+        .scenario-card p {
+            color: #666;
+            margin-bottom: 0;
+        }
+        
+        .difficulty {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #872108;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!-- 使用Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>潮汕话场景对话训练</h1>
+    </div>
+    
+    <div class="container">
+        <!-- AI生成的潮汕话对话场景 -->
+        <div class="scenario-card" onclick="startDialogue('market')">
+            <h2><i class="fas fa-shopping-cart"></i> 市场买菜</h2>
+            <p>学习如何在潮汕市场讨价还价、询问价格等日常对话</p>
+            <span class="difficulty">初级</span>
+        </div>
+        
+        <div class="scenario-card" onclick="startDialogue('family')">
+            <h2><i class="fas fa-home"></i> 家庭聚会</h2>
+            <p>模拟潮汕家庭聚会时的亲戚称呼和问候语</p>
+            <span class="difficulty">初级</span>
+        </div>
+        
+        <div class="scenario-card" onclick="startDialogue('restaurant')">
+            <h2><i class="fas fa-utensils"></i> 餐馆点餐</h2>
+            <p>学习潮汕特色美食的点餐用语和饮食文化</p>
+            <span class="difficulty">中级</span>
+        </div>
+        
+        <div class="scenario-card" onclick="startDialogue('history')">
+            <h2><i class="fas fa-landmark"></i> 历史文化</h2>
+            <p>讨论潮汕地区的历史文化和传统习俗</p>
+            <span class="difficulty">高级</span>
+        </div>
+        
+        <a href="jiemian1.html" class="back-btn">返回首页</a>
+    </div>
+
+    <script>
+        // 跳转到对话训练页面
+        function startDialogue(scene) {
+            // 存储选择的场景到本地存储
+            localStorage.setItem('dialogueScene', scene);
+            window.location.href = 'speakandlearn1.html';
+        }
+        
+        // 这里可以添加从AI获取场景列表的逻辑
+        // 例如：
+        // async function loadScenarios() {
+        //   const response = await fetch('AI_API_ENDPOINT');
+        //   const scenarios = await response.json();
+        //   // 动态生成场景卡片
+        // }
+        // window.onload = loadScenarios;
+    </script>
+</body>
+</html>

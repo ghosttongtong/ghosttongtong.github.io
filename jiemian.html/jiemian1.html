@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上落：潮汕方言社交传承</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .selection-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-speaker {
+            background-color: #872108;
+            color: white;
+        }
+        
+        .btn-learner {
+            background-color: #872108;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="selection-box">
+        <h1>请选择您的身份</h1>
+        <div class="options">
+            <button class="btn btn-speaker" onclick="navigate('speaker')">胶己人</button>
+            <button class="btn btn-learner" onclick="navigate('learner')">学话人</button>
+        </div>
+    </div>
+
+    <script>
+        function navigate(role) {
+            // 根据选择的身份跳转到不同页面
+            if (role === 'speaker') {
+                window.location.href = 'speak.html'; // 会讲身份页面
+            } else if (role === 'learner') {
+                window.location.href = 'learn.html'; // 学习身份页面
+            }
+        }
+    </script>
+</body>
+</html>

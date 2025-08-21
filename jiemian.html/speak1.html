@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潮汕文化每日话题</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f1f8e9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #872108;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .topic-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .topic-title {
+            color: #872108;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .topic-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .comments-section {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .comment-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+        
+        .submit-btn {
+            margin-left: 10px;
+            padding: 0 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #872108;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .comments-list {
+            margin-top: 20px;
+        }
+        
+        .comment {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .like-btn, .friend-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .like-btn.liked {
+            color: #f44336;
+        }
+        
+        .friend-btn.added {
+            color: #872108;
+        }
+        
+        .ai-interaction {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #872108;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .ai-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .conversation {
+            height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        
+        .ai-message {
+            background-color: #e8f5e9;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #872108;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .voice-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #872108;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .voice-btn:hover {
+            background-color: #872108;
+        }
+        
+        .voice-btn i {
+            font-size: 16px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <a href="speak.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回</a>
+        <h1>潮汕文化每日话题</h1>
+    </div>
+    
+    <div class="container">
+        <!-- 今日话题卡片 -->
+        <div class="topic-card">
+            <h2 class="topic-title" id="daily-topic-title">今日话题: 加载中...</h2>
+            <p class="topic-desc" id="daily-topic-desc">
+                正在获取今日话题...
+            </p>
+        </div>
+        
+        <!-- 评论区域 -->
+        <div class="comments-section">
+            <h3>匿名评论</h3>
+            <div class="comment-form">
+                <textarea class="comment-input" id="comment-input" placeholder="发表你的看法..."></textarea>
+                <button class="submit-btn" id="submit-comment">发布</button>
+            </div>
+            
+            <div class="comments-list" id="comments-list">
+                <!-- 评论将在这里动态生成 -->
+            </div>
+        </div>
+        
+        <!-- AI交互区域 -->
+        <div class="ai-interaction">
+            <div class="ai-header">
+                <div class="ai-avatar">AI</div>
+                <div class="ai-name">潮汕文化助手</div>
+            </div>
+            
+            <div class="conversation" id="conversation">
+                <div class="message ai-message">
+                    您好！我是潮汕文化助手，今天我们将讨论<span id="ai-topic-reference"></span>。您可以随时通过语音或文字与我交流。
+                </div>
+                <div class="message ai-message">
+                    首先，您对今天的潮汕文化话题有什么看法或经验可以分享吗？
+                </div>
+            </div>
+            
+            <div class="voice-controls">
+                <button class="voice-btn" id="startVoice">
+                    <i class="fas fa-microphone"></i> 语音输入
+                </button>
+                <button class="voice-btn" id="playVoice">
+                    <i class="fas fa-volume-up"></i> 播放回答
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 潮汕文化话题库
+        const chaoshanTopics = [
+            {
+                title: "潮汕功夫茶的独特魅力",
+                desc: "探讨潮汕功夫茶的历史、冲泡技艺和在现代生活中的传承。分享你与潮汕功夫茶的故事或体验。",
+                aiPrompt: "潮汕功夫茶的文化内涵"
+            },
+            {
+                title: "潮汕方言的保护与传承",
+                desc: "讨论潮汕方言的特点、现状以及如何在年轻一代中传承。你会说潮汕话吗？有什么有趣的方言词汇可以分享？",
+                aiPrompt: "潮汕方言的特色和保护措施"
+            },
+            {
+                title: "潮汕传统节日的庆祝方式",
+                desc: "分享潮汕地区特有的节日习俗，如冬至吃汤圆、中秋烧塔等。这些传统在现代社会有哪些变化？",
+                aiPrompt: "潮汕传统节日的独特习俗"
+            },
+            {
+                title: "潮汕美食的文化意义",
+                desc: "从牛肉丸到蚝烙，潮汕美食如何体现地方文化特色？你最喜欢的潮汕美食是什么？为什么？",
+                aiPrompt: "潮汕美食的文化背景"
+            },
+            {
+                title: "潮汕民居的建筑特色",
+                desc: "探讨潮汕传统民居如四点金、下山虎的建筑特点和文化内涵。你见过或住过这样的传统民居吗？",
+                aiPrompt: "潮汕传统民居的建筑风格"
+            }
+        ];
+        
+        // 模拟数据库中的评论
+        let comments = [
+            {
+                id: 1,
+                content: "我家每天都会泡功夫茶，已经成为家庭交流的重要方式。",
+                likes: 5,
+                isLiked: false,
+                isFriend: false,
+                timestamp: new Date().getTime() - 3600000
+            },
+            {
+                id: 2,
+                content: "潮汕话真的很有趣，但现在的年轻人越来越不会说了，有点可惜。",
+                likes: 3,
+                isLiked: true,
+                isFriend: false,
+                timestamp: new Date().getTime() - 7200000
+            }
+        ];
+        
+        // 获取今日话题 (基于日期确保每天相同)
+        function getDailyTopic() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const topicIndex = Math.floor(dayOfYear) % chaoshanTopics.length;
+            return chaoshanTopics[topicIndex];
+        }
+        
+        // 加载今日话题
+        function loadDailyTopic() {
+            const topic = getDailyTopic();
+            document.getElementById('daily-topic-title').textContent = `今日话题: ${topic.title}`;
+            document.getElementById('daily-topic-desc').textContent = topic.desc;
+            document.getElementById('ai-topic-reference').textContent = topic.aiPrompt;
+        }
+        
+        // 渲染评论
+        function renderComments() {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+            
+            comments.sort((a, b) => b.timestamp - a.timestamp).forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                
+                const timeString = new Date(comment.timestamp).toLocaleString();
+                
+                commentElement.innerHTML = `
+                    <div class="comment-header">
+                        <span>匿名用户</span>
+                        <span>${timeString}</span>
+                    </div>
+                    <div class="comment-content">${comment.content}</div>
+                    <div class="comment-actions">
+                        <button class="like-btn ${comment.isLiked ? 'liked' : ''}" data-id="${comment.id}">
+                            <i class="fas fa-thumbs-up"></i> <span>${comment.likes}</span>
+                        </button>
+                        <button class="friend-btn ${comment.isFriend ? 'added' : ''}" data-id="${comment.id}">
+                            <i class="fas fa-user-plus"></i> 加好友
+                        </button>
+                    </div>
+                `;
+                
+                commentsList.appendChild(commentElement);
+            });
+            
+            // 添加点赞事件监听
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const commentId = parseInt(this.getAttribute('data-id'));
+                    const comment = comments.find(c => c.id === commentId);
+                    
+                    if (comment.isLiked) {
+                        comment.likes--;
+                        comment.isLiked = false;
+                    } else {
+                        comment.likes++;
+                        comment.isLiked = true;
+                    }
+                    
+                    renderComments();
+                });
+            });
+            
+            // 添加好友事件监听
+            document.querySelectorAll('.friend-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const commentId = parseInt(this.getAttribute('data-id'));
+                    const comment = comments.find(c => c.id === commentId);
+                    comment.isFriend = !comment.isFriend;
+                    
+                    renderComments();
+                    alert(comment.isFriend ? '好友请求已发送' : '已取消好友请求');
+                });
+            });
+        }
+        
+        // 添加新评论
+        document.getElementById('submit-comment').addEventListener('click', function() {
+            const input = document.getElementById('comment-input');
+            const content = input.value.trim();
+            
+            if (content) {
+                const newComment = {
+                    id: comments.length + 1,
+                    content: content,
+                    likes: 0,
+                    isLiked: false,
+                    isFriend: false,
+                    timestamp: new Date().getTime()
+                };
+                
+                comments.unshift(newComment);
+                input.value = '';
+                renderComments();
+            }
+        });
+        
+        // 模拟AI交互
+        document.getElementById('startVoice').addEventListener('click', function() {
+            const topic = getDailyTopic();
+            alert('语音输入功能将在集成AI API后实现');
+            
+            // 模拟用户语音输入
+            setTimeout(() => {
+                const userResponses = {
+                    "潮汕功夫茶的独特魅力": "我觉得潮汕功夫茶最能体现潮汕人的待客之道。",
+                    "潮汕方言的保护与传承": "我虽然不会说潮汕话，但觉得应该在学校开设方言课程。",
+                    "潮汕传统节日的庆祝方式": "我们家乡的中秋烧塔活动每年都吸引很多人参加。",
+                    "潮汕美食的文化意义": "潮汕牛肉丸的弹牙口感真的独一无二！",
+                    "潮汕民居的建筑特色": "我爷爷家就是传统的四点金格局，冬暖夏凉。"
+                };
+                
+                const userMessage = userResponses[topic.title] || "这个话题很有意思，我想了解更多。";
+                addMessage(userMessage, 'user');
+                
+                // 模拟AI回复
+                setTimeout(() => {
+                    const aiResponses = {
+                        "潮汕功夫茶的独特魅力": "确实如此！功夫茶不仅是饮品，更是潮汕人社交的纽带。您知道潮汕功夫茶最讲究的是什么吗？",
+                        "潮汕方言的保护与传承": "这是个很好的建议！实际上，潮州已经有一些学校尝试方言教学了。您觉得还有什么方法可以促进方言传承？",
+                        "潮汕传统节日的庆祝方式": "烧塔活动确实壮观！它象征着丰收和团圆。您参与过烧塔的准备过程吗？",
+                        "潮汕美食的文化意义": "牛肉丸的制作工艺可是潮汕饮食文化的精髓之一。您知道传统的牛肉丸是怎么制作的吗？",
+                        "潮汕民居的建筑特色": "四点金是潮汕民居的典型代表，它的对称布局反映了潮汕人的审美和家族观念。您注意到它的排水系统设计了吗？"
+                    };
+                    
+                    const aiResponse = aiResponses[topic.title] || "感谢您的分享！关于这个话题，您还想了解哪些方面的内容？";
+                    addMessage(aiResponse, 'ai');
+                }, 1000);
+            }, 1500);
+        });
+        
+        document.getElementById('playVoice').addEventListener('click', function() {
+            alert('语音播放功能将在集成AI API后实现');
+        });
+        
+        function addMessage(text, sender) {
+            const conversation = document.getElementById('conversation');
+            const message = document.createElement('div');
+            message.className = `message ${sender}-message`;
+            message.textContent = text;
+            conversation.appendChild(message);
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+        
+        // 初始化页面
+        window.addEventListener('DOMContentLoaded', function() {
+            loadDailyTopic();
+            renderComments();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潮汕文化学习</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #bbdefb;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #872108;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .topics-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #872108;
+            margin-top: 0;
+            text-align: center;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .topic-card {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .topic-icon {
+            font-size: 30px;
+            color: #872108;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .topic-title {
+            color: #872108;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+        
+        .topic-desc {
+            color: #333;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .chat-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .chat-title {
+            color: #872108;
+            margin: 0;
+        }
+        
+        .close-chat {
+            background: none;
+            border: none;
+            color: #872108;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: #872108;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            background-color: #e3f2fd;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 5px;
+            gap: 5px;
+        }
+        
+        .play-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .play-btn:hover {
+            background-color: #3e8e41;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .text-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .send-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #872108;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .send-btn:hover {
+            background-color: #872108;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #872108;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- 使用Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <a href="learn.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回</a>
+        <h1>潮汕文化学习</h1>
+    </div>
+    
+    <div class="container">
+        <div class="topics-section">
+            <h2 class="section-title">选择您感兴趣的潮汕文化话题</h2>
+            
+            <div class="topics-grid">
+                <div class="topic-card" data-topic="tea">
+                    <div class="topic-icon">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <h3 class="topic-title">潮汕功夫茶</h3>
+                    <p class="topic-desc">了解潮汕独特的茶文化，从茶具到冲泡技艺，感受"茶三酒四"的待客之道。</p>
+                </div>
+                
+                <div class="topic-card" data-topic="opera">
+                    <div class="topic-icon">
+                        <i class="fas fa-mask"></i>
+                    </div>
+                    <h3 class="topic-title">潮剧艺术</h3>
+                    <p class="topic-desc">探索潮汕传统戏曲的魅力，了解其独特的唱腔、表演形式和经典剧目。</p>
+                </div>
+                
+                <div class="topic-card" data-topic="festival">
+                    <div class="topic-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h3 class="topic-title">潮汕节庆</h3>
+                    <p class="topic-desc">认识潮汕地区丰富多彩的传统节日和民俗活动，如游神赛会、英歌舞等。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-section" id="chatSection">
+            <div class="chat-header">
+                <h3 class="chat-title" id="chatTopicTitle">潮汕功夫茶</h3>
+                <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- 聊天消息将在这里显示 -->
+            </div>
+            
+            <div class="input-area">
+                <input type="text" class="text-input" id="messageInput" placeholder="输入您想了解的问题...">
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i> 发送
+                </button>
+            </div>
+            
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>AI正在思考中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const topicCards = document.querySelectorAll('.topic-card');
+        const chatSection = document.getElementById('chatSection');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatTopicTitle = document.getElementById('chatTopicTitle');
+        const closeChatBtn = document.getElementById('closeChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+        // 潮汕文化话题数据
+        const topicsData = {
+            tea: {
+                title: "潮汕功夫茶",
+                intro: "您好！我是潮汕文化助手。您想了解潮汕功夫茶的哪些方面呢？可以输入以下问题：\n1. 潮汕功夫茶有什么特点？\n2. 功夫茶用的是什么茶叶？\n3. 能介绍一下茶具吗？",
+                introAudio: "audio/tea-intro.mp3",
+                responses: {
+                    "潮汕功夫茶有什么特点？": {
+                        answer: "潮汕功夫茶以'精、洁、和、思'为特点。讲究'高冲低斟'、'关公巡城'、'韩信点兵'等独特冲泡技法。茶具多用朱泥小壶，茶杯小而浅，称为'蛋壳杯'。潮汕人常说'茶三酒四'，意指品茶宜三人，饮酒宜四人。",
+                        questionAudio: "audio/tea-features-q.m4a",
+                        answerAudio: "audio/tea-features-a.m4a"
+                    },
+                    "功夫茶用的是什么茶叶？": {
+                        answer: "传统潮汕功夫茶主要使用凤凰单丛茶，产自潮州凤凰山。这种茶有'形美、色翠、香郁、味甘'的特点，常见香型有蜜兰香、黄枝香、芝兰香等。当地人常说'好茶不怕细品'，体现了对茶叶品质的追求。",
+                        questionAudio: "audio/tea-types-q.mp3",
+                        answerAudio: "audio/tea-types-a.mp3"
+                    },
+                    "能介绍一下茶具吗？": {
+                        answer: "潮汕功夫茶具主要有'四宝'：1. 孟臣罐（小紫砂壶）2. 若琛瓯（小茶杯）3. 玉书煨（烧水壶）4. 潮汕红泥炉。现代多用电磁炉替代红泥炉。茶盘称为'茶船'，用于承接废水。潮汕话中称茶壶为'冲罐'，茶杯为'茶瓯'。",
+                        questionAudio: "audio/tea-tools-q.mp3",
+                        answerAudio: "audio/tea-tools-a.mp3"
+                    }
+                }
+            },
+            opera: {
+                title: "潮剧艺术",
+                intro: "您好！我是潮汕文化助手。您想了解潮剧的哪些方面呢？可以输入以下问题：\n1. 潮剧有什么特色？\n2. 有哪些经典潮剧？\n3. 潮剧脸谱有什么讲究？",
+                introAudio: "audio/opera-intro.mp3",
+                responses: {
+                    "潮剧有什么特色？": {
+                        answer: "潮剧又称潮州戏，是用潮汕方言演唱的地方戏曲。特色包括：1. 唱腔优美，有'轻六'、'重六'等调式 2. 表演细腻，尤以丑角表演著称 3. 音乐伴奏以二弦、椰胡、扬琴为主。潮剧在东南亚潮人社区也很流行，有'南国鲜花'的美誉。",
+                        questionAudio: "audio/opera-features-q.mp3",
+                        answerAudio: "audio/opera-features-a.mp3"
+                    },
+                    "有哪些经典潮剧？": {
+                        answer: "经典潮剧包括：《陈三五娘》讲述泉州才子陈三与潮州佳人五娘的爱情故事；《苏六娘》描写潮州女子苏六娘与表兄的爱情悲剧；《张春郎削发》则是幽默风趣的喜剧。潮汕俗语说'好戏不过《陈三五娘》'，可见其受欢迎程度。",
+                        questionAudio: "audio/opera-classics-q.mp3",
+                        answerAudio: "audio/opera-classics-a.mp3"
+                    },
+                    "潮剧脸谱有什么讲究？": {
+                        answer: "潮剧脸谱色彩鲜明：红色代表忠勇（如关羽），黑色代表刚直（如包拯），白色代表奸诈（如曹操），金色代表神怪。丑角脸谱最具特色，常在鼻梁上画一块'豆腐干'。潮汕话称脸谱为'面壳'，表演时讲究'手眼身法步'的配合。",
+                        questionAudio: "audio/opera-masks-q.mp3",
+                        answerAudio: "audio/opera-masks-a.mp3"
+                    }
+                }
+            },
+            festival: {
+                title: "潮汕节庆",
+                intro: "您好！我是潮汕文化助手。您想了解潮汕哪些传统节庆呢？可以输入以下问题：\n1. 什么是游神赛会？\n2. 英歌舞是什么？\n3. 中秋烧塔有什么特别？",
+                introAudio: "audio/festival-intro.mp3",
+                responses: {
+                    "什么是游神赛会？": {
+                        answer: "游神赛会是潮汕地区重要的民俗活动，多在农历正月举行。各村将神庙中的神像请出巡游，伴有锣鼓队、标旗队、英歌舞等表演。潮汕话称为'营老爷'，寓意祈求平安吉祥。最著名的是澄海冠山赛大猪，祭品重达千斤，场面壮观。",
+                        questionAudio: "audio/festival-parade-q.mp3",
+                        answerAudio: "audio/festival-parade-a.mp3"
+                    },
+                    "英歌舞是什么？": {
+                        answer: "英歌舞是潮汕独特的民间舞蹈，表演者画梁山好汉脸谱，双手执短棒对击，配合锣鼓节奏起舞。分为'慢板'和'快板'两种风格，动作刚劲有力。潮阳英歌舞最为著名，被誉为'中国民间舞蹈之根'。潮汕俗语说'看英歌，消百病'，可见其受欢迎程度。",
+                        questionAudio: "audio/festival-yingge-q.mp3",
+                        answerAudio: "audio/festival-yingge-a.mp3"
+                    },
+                    "中秋烧塔有什么特别？": {
+                        answer: "潮汕中秋有烧瓦塔的习俗，用砖瓦垒成塔形，内填柴草，夜晚点燃，火焰从塔孔喷出，十分壮观。这一习俗源于元代抗元起义传递信号的传说。潮汕话称'烧塔'，寓意'步步高升'。普宁、潮阳等地的烧塔活动规模最大，常有数米高的瓦塔。",
+                        questionAudio: "audio/festival-midautumn-q.mp3",
+                        answerAudio: "audio/festival-midautumn-a.mp3"
+                    }
+                }
+            }
+        };
+        
+        let currentTopic = null;
+        const audioPlayer = new Audio(); // 创建音频播放器
+        
+        // 点击话题卡片
+        topicCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const topic = card.getAttribute('data-topic');
+                currentTopic = topicsData[topic];
+                
+                // 更新聊天界面
+                chatTopicTitle.textContent = currentTopic.title;
+                chatMessages.innerHTML = `
+                    <div class="message bot-message">
+                        <p>${currentTopic.intro}</p>
+                        <div class="message-actions">
+                            <button class="play-btn" data-audio="${currentTopic.introAudio}">
+                                <i class="fas fa-volume-up"></i> 播放潮汕话介绍
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // 显示聊天区域
+                chatSection.style.display = 'block';
+                
+                // 滚动到聊天区域
+                chatSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // 关闭聊天
+        closeChatBtn.addEventListener('click', () => {
+            chatSection.style.display = 'none';
+        });
+        
+        // 发送消息
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || !currentTopic) return;
+            
+            // 检查是否是预设问题
+            const response = currentTopic.responses[message];
+            const questionAudio = response ? response.questionAudio : "audio/default-question.mp3";
+            
+            // 添加用户消息
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.innerHTML = `
+                <p>${message}</p>
+                <div class="message-actions">
+                    <button class="play-btn" data-audio="${questionAudio}">
+                        <i class="fas fa-volume-up"></i> 播放潮汕话
+                    </button>
+                </div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // 清空输入框
+            messageInput.value = '';
+            
+            // 显示加载指示器
+            loadingIndicator.style.display = 'block';
+            
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 模拟AI处理时间
+            setTimeout(() => {
+                // 隐藏加载指示器
+                loadingIndicator.style.display = 'none';
+                
+                if (response) {
+                    // 添加AI回复
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    botMessage.innerHTML = `
+                        <p>${response.answer}</p>
+                        <div class="message-actions">
+                            <button class="play-btn" data-audio="${response.answerAudio}">
+                                <i class="fas fa-volume-up"></i> 播放潮汕话回答
+                            </button>
+                        </div>
+                    `;
+                    chatMessages.appendChild(botMessage);
+                } else {
+                    // 未知问题的回复
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    botMessage.innerHTML = `
+                        <p>抱歉，我暂时无法回答这个问题。您可以尝试输入以下问题：</p>
+                        <ul>
+                            ${Object.keys(currentTopic.responses).map(q => `<li>${q}</li>`).join('')}
+                        </ul>
+                        <div class="message-actions">
+                            <button class="play-btn" data-audio="audio/default-answer.mp3">
+                                <i class="fas fa-volume-up"></i> 播放潮汕话提示
+                            </button>
+                        </div>
+                    `;
+                    chatMessages.appendChild(botMessage);
+                }
+                
+                // 滚动到底部
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+        
+        // 点击发送按钮
+        sendBtn.addEventListener('click', sendMessage);
+        
+        // 按Enter键发送
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // 点击播放潮汕话
+        chatMessages.addEventListener('click', (e) => {
+            if (e.target.closest('.play-btn')) {
+                const audioFile = e.target.closest('.play-btn').getAttribute('data-audio');
+                if (audioFile) {
+                    audioPlayer.src = audioFile;
+                    audioPlayer.play().catch(error => {
+                        console.error('播放失败:', error);
+                        alert('音频播放失败，请确保音频文件存在');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
